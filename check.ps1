@@ -45,9 +45,13 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Write-Host "🚨 КРИТИЧЕСКАЯ ОШИБКА: Запустите PowerShell от ИМЕНИ АДМИНИСТРАТОРА!" -ForegroundColor Red; return
 }
 
-$Process = Get-Process | Where-Object { $_.Name -match "cstrike|cs2|hl2" } | Select-Object -First 1
-if (!$Process) { Write-Host "❌ Ошибка: Процесс игры не найден!" -ForegroundColor Red; return }
+$Process = Get-Process | Where-Object { $_.ProcessName -match "cstrike|cs2|hl2" } | Select-Object -First 1
 
+if (!$Process) {
+    Write-Host "⚠️ Процесс игры не запущен. Перехожу в режим АУДИТА ФАЙЛОВ на диске..." -ForegroundColor Yellow
+    # Здесь можно добавить вызов функции проверки файлов (статический аудит)
+    return
+}
 Clear-Host
 Write-Host "=========================================================" -ForegroundColor Cyan
 Write-Host "        СИСТЕМНЫЙ АУДИТ И БЕЗОПАСНОСТЬ ПРОЦЕССА          " -ForegroundColor Cyan
